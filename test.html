@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证函数测试</title>
+    <style>
+        .a { border:1px solid green; }
+    </style>
+</head>
+<body>
+    <form>
+        <p><input type="text" name="test1" required pattern="abc" data-cls="a" /></p>
+        <p><input type="text" name="test2" required pattern="\d+" title="请输入数字" /></p>
+        <p><input type="text" name="test3" pattern="\d+" title="请输入数字" /></p>
+        <p><input type="date" name="test4" required /></p>
+        <p><input type="number" name="test5" required /></p>
+        <p><input type="url" name="test6" required /></p>
+        <p><input type="email" name="email" required /></p>
+        <p><input type="submit" name="submit" value="submit" /></p>
+    </form>
+    <script src="http://zeptojs.com/zepto.min.js"></script>
+    <script src="validator.js"></script>
+    <script>$('form').validator()</script>
+</body>
+</html>
