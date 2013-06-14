@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Validator测试页面</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        body { font: 14px/1.5 Arial; }
+        label { display:block; font-weight:bold; }
+        .red { color:red; }
+    </style>
+</head>
+<body>
+    <h2 class="red">本例子需要在手机上做测试，Chrome及其他高级浏览器已经支持这些属性了~</h2>
+    <form name="testForm">
+        <ol>
+            <li>
+                <label>最简单的required测试：</label>
+                <input type="text" name="test1" required />
+            </li>
+            <li>
+                <label>pattern测试：（\d{4,}）这种情况不填写是能通过校验，因为没有required，以下同理。</label>
+                <input type="text" name="test1" pattern="\d{4,}" />
+            </li>
+            <li>
+                <label>required + title测试：title仅仅只是一个提示作用。</label>
+                <input type="text" name="test1" required title="输入不能为空" />
+            </li>
+            <li>
+                <label>type=email测试：</label>
+                <input type="email" name="test1" required />
+            </li>
+            <li>
+                <label>type=number测试：</label>
+                <input type="number" name="test1"/>
+            </li>
+            <li>
+                <label>type=date测试：</label>
+                <input type="date" name="test1" />
+            </li>
+            <li>
+                <label>type=tel测试：</label>
+                <input type="tel" name="test1" />
+            </li>
+            <li>
+                <label>type=url测试：</label>
+                <input type="url" name="test1" />
+            </li>
+            <li>
+                <label>pattern="\d{4, }" + data-cls="red"测试：</label>
+                <input type="text" name="test1" pattern="\d{4,}" data-cls="red" />
+            </li>
+            <li>
+                <label>pattern="\d{4, }" + data-cls="red" + data-partner="#c-red"测试：</label>
+                <input type="text" name="test1" pattern="\d{4,}" data-cls="red" data-partner="#c-red" />
+                <span id="c-red">注意我的变化哦~</span>
+            </li>
+            <!--
+            <li>
+                <label></label>
+                <input type="text" name="test1" />
+            </li>
+            -->
+            <li><input type="submit" value="提交试试"></li>
+        </ol>
+    </form>
+<script src="http://libs.baidu.com/zepto/1.0rc/zepto.min.js"></script>
+<script src="validator.js"></script>
+<script>
+$(function() {
+    $(document.forms.testForm).validator();
+});
+</script>
+</body>
+</html>
