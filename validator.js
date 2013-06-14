@@ -24,7 +24,8 @@ function Validator(form, callback) {
             var input = $(this),
                 partner = input.data('partner'),
                 cls = input.data('cls'),
-                hasError = _this._hasError(input);
+                // 包含空值判断
+                hasError = !input.val() || _this._hasError(input);
 
             if (partner) {
                 input = $(partner);
