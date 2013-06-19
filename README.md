@@ -5,6 +5,7 @@
 1. 支持required, pattern, title属性定义；
 2. 支持多种type，有: email, number, date, tel, url；
 3. 支持实时状态更新，只需要加一个属性：data-cls="CLASS"，如果判断通过校验，则默认给当前input增加加CLASS的class，但如果有data-partner="SELECTOR"，则给$(input.data('partner'))增加CLASS。
+4. 增加了data-nocls="CLASS"，功能刚好跟data-cls相反。它是移除CLASS。
 
 ## 不足（待改进）
 1. 目前只支持文本类型的输入框校验；

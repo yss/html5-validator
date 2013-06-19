@@ -17,23 +17,23 @@ function Validator(form, callback) {
     var _this = this;
     _this.form = $(form);
     if (_this.form.is('form')) {
-        _this.callback = callback || function (msg, elem) { alert(msg); };
+        _this.callback = callback || function (msg) { alert(msg); };
         _this.form.submit(function() {
             return _this.doSubmit();
-        }).on('keyup', 'input[data-cls]', function() {
+        }).on('keyup', 'input[data-cls], input[data-nocls]', function() {
             var input = $(this),
                 partner = input.data('partner'),
                 cls = input.data('cls'),
-                // 包含空值判断
+                nocls = input.data('nocls'),
                 hasError = !input.val() || _this._hasError(input);
 
             if (partner) {
                 input = $(partner);
             }
-            if (hasError) {
-                input.removeClass(cls);
+            if ((hasError && cls) || (!hasError && nocls)) {
+                input.removeClass(cls || nocls);
             } else {
-                input.addClass(cls);
+                input.addClass(cls || nocls);
             }
         });;
     }
@@ -62,6 +62,7 @@ $.extend(Validator.prototype, {
     _hasError: function(elem) {
         var elem = $(elem),
             val = elem.val(),
+            type = elem.attr('type'),
             isRequired = elem.prop('required') && !elem.prop('disabled');
         // 空值情况
         if (isRequired && !val) {
