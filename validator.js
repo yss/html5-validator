@@ -48,7 +48,7 @@ $.extend(Validator.prototype, {
         for (; i < len; ++i) {
             input = inputs[i];
             // 是文本输入框
-            if (Validator.textType.indexOf(input.type + ',') !== -1) {
+            if (Validator.TEXT_TYPE.indexOf(input.type + ',') !== -1) {
                 if (this._hasError(input)) {
                     input.focus();
                     this.callback(input.title || this.msg || '输入错误', input);
@@ -76,8 +76,8 @@ $.extend(Validator.prototype, {
                     return true;
                 }
             } else {
-                if (Validator.type[type]) {
-                    if (!Validator.type[type].test(val)) {
+                if (Validator.TYPE[type]) {
+                    if (!Validator.TYPE[type].test(val)) {
                         this.msg = "输入的类型不正确";
                         return true;
                     }
@@ -88,7 +88,7 @@ $.extend(Validator.prototype, {
     }
 });
 
-Validator.type = {
+Validator.TYPE = {
     email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
     number: /^\d+$/,
     date: /^\d{4}-\d{2}-\d{2}$/,
@@ -97,7 +97,7 @@ Validator.type = {
 };
 
 // 文本类型
-Validator.textType = 'text,search,email,number,date,tel,';
+Validator.TEXT_TYPE = 'text,search,email,number,date,tel,';
 
 $.fn.validator = function(callback) {
     new Validator(this, callback);
