@@ -13,40 +13,44 @@
  */
 ;(function($) {
 
-function Validator(form, callback) {
-    var _this = this;
-    _this.form = $(form);
-    if (_this.form.is('form')) {
+function Validator($form, callback) {
+    var _this = this,
+        INPUT = 'input';
+    _this.$form = $form;
+    if (_this.$form.is('form')) {
         _this.callback = callback || function (msg) { alert(msg); };
-        _this.form.submit(function() {
+        _this.$form.submit(function() {
             return _this.doSubmit();
-        }).on('keyup', 'input[data-cls], input[data-nocls]', function() {
-            var input = $(this),
-                partner = input.data('partner'),
-                cls = input.data('cls'),
-                nocls = input.data('nocls'),
-                hasError = !input.val() || _this._hasError(input);
+        }).on('oninput' in document.createElement(INPUT) ? INPUT : 'keyup', 'input[data-cls], input[data-nocls]', function() {
+            var $input = $(this),
+                partner = $input.data('partner'),
+                cls = $input.data('cls'),
+                nocls = $input.data('nocls'),
+                hasError = !$input.val() || _this._hasError($input);
 
             if (partner) {
-                input = $(partner);
+                $input = $(partner);
             }
             if ((hasError && cls) || (!hasError && nocls)) {
-                input.removeClass(cls || nocls);
+                $input.removeClass(cls || nocls);
             } else {
-                input.addClass(cls || nocls);
+                $input.addClass(cls || nocls);
             }
         });;
     }
 }
 
 $.extend(Validator.prototype, {
+    /**
+     * 
+     */
     doSubmit: function() {
-        var inputs = this.form.find('input'),
+        var $inputs = this.$form.find('input'),
             input,
-            len = inputs.length,
+            len = $inputs.length,
             i = 0;
         for (; i < len; ++i) {
-            input = inputs[i];
+            input = $inputs[i];
             // 是文本输入框
             if (Validator.TEXT_TYPE.indexOf(input.type + ',') !== -1) {
                 if (this._hasError(input)) {
@@ -59,19 +63,22 @@ $.extend(Validator.prototype, {
         return true;
     },
 
-    _hasError: function(elem) {
-        var elem = $(elem),
-            val = elem.val(),
-            type = elem.attr('type'),
-            isRequired = elem.prop('required') && !elem.prop('disabled');
+    /**
+     * 检测是否有错误
+     */
+    _hasError: function($elem) {
+        $elem = $($elem);
+        var val = $elem.val(),
+            type = $elem.attr('type'),
+            isRequired = $elem.prop('required') && !$elem.prop('disabled');
         // 空值情况
         if (isRequired && !val) {
             this.msg = '输入不能为空';
             return true;
         }
         if (isRequired || val) {
-            if (elem.attr('pattern')) {
-                if (!new RegExp('^' + elem.attr('pattern') + '$').test(val)) {
+            if ($elem.attr('pattern')) {
+                if (!new RegExp('^' + $elem.attr('pattern') + '$').test(val)) {
                     this.msg = "输入格式不正确";
                     return true;
                 }
@@ -88,6 +95,7 @@ $.extend(Validator.prototype, {
     }
 });
 
+// 默认的类型
 Validator.TYPE = {
     email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
     number: /^\d+$/,
